@@ -41,8 +41,9 @@ image.onload = () => {
 }
 
 // addEventListener('keydown') will work whenever you press a key
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 window.addEventListener('keydown', (e) => {
-    console.log(e.key)
     switch (e.key) {
         case 'w':
             console.log('pressed w key')
@@ -55,9 +56,6 @@ window.addEventListener('keydown', (e) => {
             break
         case 'd':
             console.log('pressed d key')
-            break
-            case 'ArrowUp':
-            console.log('pressed up key')
             break
     }
 })
