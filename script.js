@@ -14,7 +14,7 @@ c.fillRect(0, 0, canvas.width,
 const playerImage = new Image()
 playerImage.src = './img/playerDown.png'
 
-const image = new Image()
+const image = new Image() fdsfsdf
 image.src = './img/Map.png'
 image.onload = () => {
     c.drawImage(image, -335, -690, 4000, 4000 * image.height / image.width)
@@ -61,3 +61,4 @@ window.addEventListener('keydown', (e) => {
             break
     }
 })
+
