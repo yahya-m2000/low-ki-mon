@@ -3,6 +3,7 @@
 const canvas = document.querySelector('canvas');
 // get(2d) will give us a whole api of canvas, and '2d' will give us a 2d api
 const c = canvas.getContext('2d')
+console.log(battlePatchData)
 
 
 // the resolution of the game
@@ -15,9 +16,19 @@ for (let i = 0; i < collisions.length; i+= 70) {
 // slicing every element collisions and then pushing our array into a new array (collisionsMap)    
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
+
+const battlePatchMap = []
+for (let i = 0; i < battlePatchData.length; i+= 70) {
+  
+    battlePatchMap.push(battlePatchData.slice(i, 70 + i))
+}
+
+
+
 // to create canvas objects placed in their exact position by using the position value we received earlier
 
 const boundaries = []
+// this will offset the background.
 const offset = {
     x: -500,
     y: -300
@@ -27,18 +38,32 @@ const offset = {
 // row.forEach will loop within each of the row. j is the index of symbol.
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        // 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes
+        // 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
         if (symbol === 1025)
         boundaries.push(new Boundary(
             {position: {
+                // x = the boundary's width (48) and will offset so it fits with the map
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y
         }}))
     })
-} )
+})
 
-console.log(boundaries)
-  
+const battlePatch = []
+
+battlePatchMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        // 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
+        if (symbol === 1025)
+        battlePatch.push(new Boundary(
+            {position: {
+                // x = the boundary's width (48) and will offset so it fits with the map
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y
+        }}))
+    })
+})
+console.log(battlePatch)
 
 // declare image variables that will contain image assets
 const playerImageDown = new Image()
@@ -83,7 +108,7 @@ const background = new Sprite({position:{
 
 const keys = {
     w: {
-        // key is not pressed by default, so it should evalute to false
+        // key is not pressed by default, so it should evaluate to false
         pressed: false
     },
     a: {
@@ -100,7 +125,7 @@ const keys = {
 }
 
 // this variable will be an array that consists of all the items we want to move on our map
-const movables = [background, ...boundaries]
+const movables = [background, ...boundaries, ...battlePatch]
 
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
@@ -117,8 +142,26 @@ boundaries.forEach((boundary) => {
     boundary.draw()
 
 })
+battlePatch.forEach(battlePatch => {
+    battlePatch.draw()
+})
 player.draw()
 
+if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
+    for (let i = 0; i < battlePatch.length; i++) {
+        const battlePatches = battlePatch[i]
+            if ( 
+                rectangularCollision({
+                rectangle1: player,
+                rectangle2: battlePatches
+            })
+            ) {
+                console.log('battle zone collision')
+                break
+            } 
+    }
+
+}
     // if the w key is pressed & if it's the last key pressed, background.position.y will move the background upwards giving the illusion the character sprite is moving
     let moving = true
     player.moving = false
@@ -140,12 +183,12 @@ player.draw()
                     }
                 })
                 ) {
-                    console.log('colliding')
                     moving = false
                     break
-                } 
-            
-        }
+                }
+
+            }
+
         if (moving)
         movables.forEach((movable) => {
             movable.position.y += 3
@@ -248,7 +291,6 @@ animate()
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
-    console.log(e)
     switch (e.key) {
         
 
