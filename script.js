@@ -3,8 +3,6 @@
 const canvas = document.querySelector('canvas');
 // get(2d) will give us a whole api of canvas, and '2d' will give us a 2d api
 const c = canvas.getContext('2d')
-console.log(battlePatchData)
-
 
 // the resolution of the game
 canvas.width = 1024
@@ -86,7 +84,7 @@ const player = new Sprite({
         y: canvas.height / 2 - 68 / 2,
     },
     image: playerImageDown,
-    // this will change the max on this.frames.max on line 89 to 4, so it'll render out one sprite
+    // this will divide the sprite into 4 rendering out one sprite at a time
     frames: {
         max: 4
     },
@@ -127,6 +125,7 @@ const keys = {
 // this variable will be an array that consists of all the items we want to move on our map
 const movables = [background, ...boundaries, ...battlePatch]
 
+// rectangularCollision measures the player's position (rectangle1) and checks if it's x/y axis or more/less than the collision block (rectangle2)
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
         rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -135,8 +134,12 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y
     )
 }
+const battle = {
+    initiated: false
+}
 function animate () {
-window.requestAnimationFrame(animate) // This a recursive function and will loop through over and over again to begin editing the object properties 
+const animationId = window.requestAnimationFrame(animate) // This a recursive function and will loop through over and over again to begin editing the object properties 
+console.log(animationId)
 background.draw()
 boundaries.forEach((boundary) => {
     boundary.draw()
@@ -147,24 +150,51 @@ battlePatch.forEach(battlePatch => {
 })
 player.draw()
 
+let moving = true
+player.moving = false
+console.log(animationId)
+
+if (battle.initiated) return
+// This is when we activate a battle 
 if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battlePatch.length; i++) {
         const battlePatches = battlePatch[i]
+        const overlappingArea = (Math.min(player.position.x + player.width, battlePatches.position.x + battlePatches.width) - Math.max(player.position.x, battlePatches.position.x)) * (Math.min (player.position.y + player.height, battlePatches.position.y + battlePatches.height) - Math.max(player.position.y, battlePatches.position.y))
             if ( 
                 rectangularCollision({
                 rectangle1: player,
                 rectangle2: battlePatches
-            })
+            }) &&
+            overlappingArea > (player.width * player.height) / 2
+            && Math.random() < 0.05
             ) {
-                console.log('battle zone collision')
+                console.log('activate battle')
+                //deactivate a new animation loop
+                window.cancelAnimationFrame(animationId)
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.4,
+                    onComplete() {
+                        gsap.to('#overlappingDiv', {
+                            opacity: 1,
+                            duration: 0.4
+                        })
+                        //activate a new animation loop
+                        animateBattle()
+
+
+                    }
+                }) 
+                battle.initiated = true 
                 break
             } 
     }
 
 }
     // if the w key is pressed & if it's the last key pressed, background.position.y will move the background upwards giving the illusion the character sprite is moving
-    let moving = true
-    player.moving = false
+
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true
         player.image = player.sprites.up
@@ -286,6 +316,11 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     
 }
 animate()
+
+function animateBattle () {
+    window.requestAnimationFrame(animateBattle)
+    console.log('animating battle')
+}
 
 // addEventListener('keydown') will work whenever you press a key   
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
