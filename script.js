@@ -1,3 +1,5 @@
+
+
 const canvas = document.querySelector('canvas');
 // get(2d) will give us a whole api of canvas, and '2d' will give us a 2d api
 const c = canvas.getContext('2d')
@@ -246,7 +248,9 @@ animate()
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
+    console.log(e)
     switch (e.key) {
+        
 
         case 'w': // w will evaluate to true if it's pressed
             keys.w.pressed = true
