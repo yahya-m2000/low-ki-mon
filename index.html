@@ -48,7 +48,7 @@
             <div style="position: relative;">
             <div 
             style="height:5px; 
-            background-color:gray; 
+            background-color:lightgray; 
             margin-top: 15px"></div>
     <!-- Creating the enemy health bar bar once it is full-->
             <div 
@@ -64,32 +64,38 @@
         </div>
     </div>
 
-    <!-- Creating a display box to show the characters name and health-->
-    <div style="background-color: white; 
-    width: 250px; 
-    position:absolute;
-    top: 330px;
-    right: 50px;
-    border: 3px black solid;
-    padding: 12px;">
+    <!-- Represents health bar of protagonist-->
+    <div
+        style="
+        background-color: white; 
+        width: 250px; 
+        position:absolute;
+        top: 330px;
+        right: 50px;
+        border: 3px black solid;
+        padding: 12px;
+    "
+    >
 <!-- Creating the health bar once it is empty-->
     <h1 style="font-size: 16px">Flaillord</h1>
     <div style="position: relative;">
-    <div style="height:5px; 
-    background-color:gray; 
-    margin-top:15px"></div>
+        <div style="height:5px; background-color:lightgray; 
+margin-top:15px"></div>
 <!-- Creating the health bar bar once it is full-->
-    <div style="
-    height:5px; 
-    background-color:green; 
-    position: absolute; 
-    top: 0;
-    left: 0;
-    right: 0;">
-    </div>
+    <div
+        id="playerHealthBar"
+        style="
+            height:5px; 
+            background-color:green; 
+            position: absolute; 
+            top: 0;
+            left: 0;
+            right: 0;
+        "
+        ></div>
     </div>
 </div>
-        <canvas></canvas>
+<canvas></canvas>
 <!-- Creating the area where attacks and type is displayed-->
         <div 
         id="userHealthBar"
@@ -104,7 +110,7 @@
 <!-- Creating Buttons for each attack-->
     <div style="width: 66%; display: grid; grid-template-columns: repeat(2, 1fr);">
         <button>Tackle</button>
-        <button>Attack 2</button>
+        <button>Fireball</button>
         <button>Attack 3</button>
         <button>Attack 4</button>
     </div>
@@ -120,6 +126,7 @@
     ></script>
     
     <script src="data/battlePatch.js"></script>
+    <script src="data/attacks.js"></script>
     <script src="data/collisions.js"></script>
     <script src="classes.js"></script>
     <script src="script.js"></script>

@@ -36,11 +36,11 @@ const offset = {
 // row.forEach will loop within each of the row. j is the index of symbol.
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        // 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
+// 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
         if (symbol === 1025)
         boundaries.push(new Boundary(
             {position: {
-                // x = the boundary's width (48) and will offset so it fits with the map
+// x = the boundary's width (48) and will offset so it fits with the map
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y
         }}))
@@ -51,11 +51,11 @@ const battlePatch = []
 
 battlePatchMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        // 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
+// 1025 is the boundary. so, if symbol is equal to 1025, then the condition passes creating a new Boundary
         if (symbol === 1025)
         battlePatch.push(new Boundary(
             {position: {
-                // x = the boundary's width (48) and will offset so it fits with the map
+// x = the boundary's width (48) and will offset so it fits with the map
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y
         }}))
@@ -77,14 +77,14 @@ const image = new Image()
 image.src = './img/Map.png'
 
 
-    //  this will position what is being rendered on the screen
+//  this will position what is being rendered on the screen
 const player = new Sprite({
     position: {
         x: canvas.width / 2 - 192/ 4 / 2,
         y: canvas.height / 2 - 68 / 2,
     },
     image: playerImageDown,
-    // this will divide the sprite into 4 rendering out one sprite at a time
+// this will divide the sprite into 4 rendering out one sprite at a time
     frames: {
         max: 4
     },
@@ -106,7 +106,7 @@ const background = new Sprite({position:{
 
 const keys = {
     w: {
-        // key is not pressed by default, so it should evaluate to false
+// key is not pressed by default, so it should evaluate to false
         pressed: false
     },
     a: {
@@ -138,8 +138,9 @@ const battle = {
     initiated: false
 }
 function animate () {
-const animationId = window.requestAnimationFrame(animate) // This a recursive function and will loop through over and over again to begin editing the object properties 
-console.log(animationId)
+// This a recursive function and will loop through over and over again to begin editing the object properties
+    const animationId = window.requestAnimationFrame(animate) 
+// console.log(animationId)
 background.draw()
 boundaries.forEach((boundary) => {
     boundary.draw()
@@ -151,14 +152,15 @@ battlePatch.forEach(battlePatch => {
 player.draw()
 
 let moving = true
-player.moving = false
-console.log(animationId)
+player.animate = false
+// console.log(animationId)
 
 if (battle.initiated) return
 // This is when we activate a battle 
 if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battlePatch.length; i++) {
-        const battlePatches = battlePatch[i]
+        const battlePatches = battlePatch[i] 
+        // 
         const overlappingArea = (Math.min(player.position.x + player.width, battlePatches.position.x + battlePatches.width) - Math.max(player.position.x, battlePatches.position.x)) * (Math.min (player.position.y + player.height, battlePatches.position.y + battlePatches.height) - Math.max(player.position.y, battlePatches.position.y))
             if ( 
                 rectangularCollision({
@@ -169,7 +171,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
             && Math.random() < 0.05
             ) {
                 console.log('activate battle')
-                //deactivate a new animation loop
+//deactivate a new animation loop
                 window.cancelAnimationFrame(animationId)
 
                 battle.initiated = true
@@ -183,7 +185,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                             opacity: 1,
                             duration: 0.4,
                             onComplete(){
-                // activating new animation loop and fade out black screen to display background image
+// activating new animation loop and fade out black screen to display background image
                                 animateBattle()
                                 gsap.to('#overlappingDiv', {
                                     opacity: 0,
@@ -191,7 +193,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                                 })
                             }
                         })
-                        //activate a new animation loop
+//activate a new animation loop
                         animateBattle()
 
 
@@ -203,10 +205,10 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     }
 
 }
-    // if the w key is pressed & if it's the last key pressed, background.position.y will move the background upwards giving the illusion the character sprite is moving
+// if the w key is pressed & if it's the last key pressed, background.position.y will move the background upwards giving the illusion the character sprite is moving
 
     if (keys.w.pressed && lastKey === 'w') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.up
 
         for(let i = 0; i < boundaries.length; i++) {
@@ -234,9 +236,9 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
             movable.position.y += 3
         })
     }
-    // if the a key is pressed & if it's the last key pressed, background position.x will move the background sideways giving the illusion the character is moving
+// if the a key is pressed & if it's the last key pressed, background position.x will move the background sideways giving the illusion the character is moving
     else if (keys.a.pressed && lastKey === 'a') {
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.left
 
         for(let i = 0; i < boundaries.length; i++) {
@@ -265,7 +267,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         })
     }
     else if (keys.s.pressed && lastKey === 's'){
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.down
 
         for(let i = 0; i < boundaries.length; i++) {
@@ -294,7 +296,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         })
     }
     else if (keys.d.pressed && lastKey === 'd'){
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.right
 
         for(let i = 0; i < boundaries.length; i++) {
@@ -327,7 +329,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
 }
 animate()
 
-// displays the background image
+// displays the background image once we enter battle
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
 const battleBackground = new Sprite({
@@ -338,18 +340,19 @@ const battleBackground = new Sprite({
 image: battleBackgroundImage
 })
 
-// display sprite images 
+// display enemy sprite images and set where the sprite is going to be positioned on the screen
 const ZhuTwoImage = new Image()
 ZhuTwoImage.src = './sprites/ZhuTwo.png'
 const ZhuTwo = new Sprite({
     position: {
     x: 800,
-    y: 100
-},
-image: ZhuTwoImage
-})
+    y: 100,
+    },
+image: ZhuTwoImage,
+isEnemy: true
+    })
 
-// display sprite images 
+// display user sprite images and set where the sprite is going to be positioned on the screen
 const FlaillordImage = new Image()
 FlaillordImage.src = './sprites/flaillord.png'
 const Flaillord = new Sprite({
@@ -360,21 +363,26 @@ const Flaillord = new Sprite({
 image: FlaillordImage
 })
 
+const renderedSprites = [ZhuTwo, Flaillord]
 function animateBattle () {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
-    ZhuTwo.draw()
-    Flaillord.draw()
+    renderedSprites.forEach((sprite) => {
+        sprite.draw()
+    })
 }
+//animate()
+// animateBattle()
+
+// assigning value to the attack buttons we created
 document.querySelectorAll("button").forEach(button => {
-    button.addEventListener('click',()=> {
+    button.addEventListener('click',(e)=> {
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
+        console.log(selectedAttack)
         Flaillord.attack ({
-            attack: {
-            name: 'Tackle',
-            damage: 10,
-            type: 'Normal'
-        },
-        recipient: ZhuTwo
+        attack: selectedAttack,
+        recipient: ZhuTwo,
+        renderedSprites
         })
     })
 })
