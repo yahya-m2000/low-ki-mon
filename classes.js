@@ -1,7 +1,7 @@
 class Sprite {
     // Sprite is a variable that will give our sprites properties i.e the position of our sprite in the x & y axis
     // frames represents each frame of a sprite.
-        constructor({position, velocity, image, frames = { max: 1}, sprites}) {
+        constructor({position, image, frames = { max: 1}, sprites}) {
             this.position = position 
             this.image = image
             this.frames = {...frames, val: 0, elapsed: 0 }
@@ -12,6 +12,7 @@ class Sprite {
             }
             this.moving = false
             this.sprites = sprites
+            this.health = 100
         }
     
         draw() {
@@ -45,6 +46,32 @@ class Sprite {
         // else, reset the frame animation (this will keep the animation going)
         else this.frames.val = 0
         }
+    }
+
+    attack({attack, recipient}) {
+        const tl = gsap.timeline()
+        tl.to(this.position, {
+            x: this.position.x - 35
+        })
+        .to(this.position,{
+            x: this.position.x + 50, 
+            duration: 0.1,
+            onComplete:() => {
+// Enemy gets Hit
+                gsap.to('#enemyHealthBar', {
+                    width: this.health - attack.damage + '%'
+                })
+                gsap.to(recipient.position, {
+                    x: recipient.position.x + 20,
+                    yoyo: true,
+                    repeat: 3,
+                    duration: 0.05
+                })
+            }
+        })
+        .to(this.position,{
+        x: this.position.x
+        })
     }
 }
 class Boundary {

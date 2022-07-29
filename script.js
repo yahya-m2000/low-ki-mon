@@ -171,6 +171,8 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                 console.log('activate battle')
                 //deactivate a new animation loop
                 window.cancelAnimationFrame(animationId)
+
+                battle.initiated = true
                 gsap.to('#overlappingDiv', {
                     opacity: 1,
                     repeat: 3,
@@ -179,7 +181,15 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     onComplete() {
                         gsap.to('#overlappingDiv', {
                             opacity: 1,
-                            duration: 0.4
+                            duration: 0.4,
+                            onComplete(){
+                // activating new animation loop and fade out black screen to display background image
+                                animateBattle()
+                                gsap.to('#overlappingDiv', {
+                                    opacity: 0,
+                                    duration: 0.4,
+                                })
+                            }
                         })
                         //activate a new animation loop
                         animateBattle()
@@ -317,11 +327,61 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
 }
 animate()
 
+// displays the background image
+const battleBackgroundImage = new Image()
+battleBackgroundImage.src = './img/battleBackground.png'
+const battleBackground = new Sprite({
+    position:{
+    x: 0,
+    y: 0
+},
+image: battleBackgroundImage
+})
+
+// display sprite images 
+const ZhuTwoImage = new Image()
+ZhuTwoImage.src = './sprites/ZhuTwo.png'
+const ZhuTwo = new Sprite({
+    position: {
+    x: 800,
+    y: 100
+},
+image: ZhuTwoImage
+})
+
+// display sprite images 
+const FlaillordImage = new Image()
+FlaillordImage.src = './sprites/flaillord.png'
+const Flaillord = new Sprite({
+    position: {
+    x: 280,
+    y: 325
+},
+image: FlaillordImage
+})
+
 function animateBattle () {
     window.requestAnimationFrame(animateBattle)
-    console.log('animating battle')
+    battleBackground.draw()
+    ZhuTwo.draw()
+    Flaillord.draw()
 }
+document.querySelectorAll("button").forEach(button => {
+    button.addEventListener('click',()=> {
+        Flaillord.attack ({
+            attack: {
+            name: 'Tackle',
+            damage: 10,
+            type: 'Normal'
+        },
+        recipient: ZhuTwo
+        })
+    })
+})
 
+addEventListener('click',() => {
+    console.log("clicked")
+})
 // addEventListener('keydown') will work whenever you press a key   
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 let lastKey = ''
