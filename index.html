@@ -126,11 +126,14 @@ margin-top:15px"></div>
     oadhfsudhf
 </div>
 <!-- Creating Buttons for each attack-->
-    <div style="width: 66%; display: grid; grid-template-columns: repeat(2, 1fr);">
-        <button>Tackle</button>
-        <button>Fireball</button>
-        <button>Attack 3</button>
-        <button>Attack 4</button>
+    <div
+    id="attacksBox"
+    style="
+        width: 66%; 
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr);
+    "
+>
     </div>
     <div style="display:flex; align-items:center; justify-content:center; width: 33%; border-left: 3px black solid;">
         <h1 style = "font-size: 16px ">Attck Type:</h1>
@@ -145,6 +148,7 @@ margin-top:15px"></div>
     
     <script src="data/battlePatch.js"></script>
     <script src="data/attacks.js"></script>
+    <script src="data/monsters.js"></script>
     <script src="data/collisions.js"></script>
     <script src="classes.js"></script>
     <script src="script.js"></script>

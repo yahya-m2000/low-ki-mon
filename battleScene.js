@@ -9,32 +9,21 @@ const battleBackground = new Sprite({
 image: battleBackgroundImage
 })
 
-// display enemy sprite images and set where the sprite is going to be positioned on the screen
-const ZhuTwoImage = new Image()
-ZhuTwoImage.src = './sprites/ZhuTwo.png'
-const ZhuTwo = new Sprite({
-    position: {
-    x: 800,
-    y: 100,
-    },
-image: ZhuTwoImage,
-isEnemy: true,
-name: 'ZhuTwo'
-    })
 
-// display user sprite images and set where the sprite is going to be positioned on the screen
-const FlaillordImage = new Image()
-FlaillordImage.src = './sprites/flaillord.png'
-const Flaillord = new Sprite({
-    position: {
-    x: 280,
-    y: 325
-},
-image: FlaillordImage,
-name: 'Flaillord'
-})
+const ZhuTwo = new Monster(monsters.ZhuTwo)
+const Flaillord = new Monster(monsters.Flaillord)
 
 const renderedSprites = [ZhuTwo, Flaillord]
+
+Flaillord.attacks.forEach(attack => {
+    const button = document.createElement('button')
+    button.innerHTML = attack.name
+    document.querySelector('#attacksBox').append(button)
+})
+
+
+
+
 function animateBattle () {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
@@ -42,8 +31,9 @@ function animateBattle () {
         sprite.draw()
     })
 }
-animate()
-
+/* animate()
+animateBattle() */
+const queue = []
 // assigning value to the attack buttons we created
 document.querySelectorAll("button").forEach(button => {
     button.addEventListener('click',(e)=> {
@@ -54,11 +44,21 @@ document.querySelectorAll("button").forEach(button => {
         recipient: ZhuTwo,
         renderedSprites
         })
+
+    queue.push(() => {
+        ZhuTwo.attack ({
+            attack: attacks.Tackle,
+            recipient: Flaillord,
+            renderedSprites
+            })
+        })
     })
 })
 
 document.querySelector('#dialogueBox').addEventListener('click',(e) => {
-    e.currentTarget.style.display = "none"
-    console.log("clicked dialogue")
+    if (queue.length > 0) {
+        queue[0]()
+        queue.shift()
+    } else e.currentTarget.style.display = "none"
 })
 

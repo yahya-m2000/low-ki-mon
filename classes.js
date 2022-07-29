@@ -7,9 +7,7 @@ class Sprite {
             frames = { max: 1},
             sprites,
             animate = false,
-            isEnemy = false,
-            rotation = 0,
-            name}){
+            rotation = 0,}){
             this.position = position 
             this.image = image
             this.frames = {...frames, val: 0, elapsed: 0 },
@@ -20,11 +18,8 @@ class Sprite {
             }
             this.animate = animate
             this.sprites = sprites
-            this.health = 100
             this.opacity = 1
-            this.isEnemy = isEnemy
             this.rotation = rotation
-            this.name = name
         }
     
         draw() {
@@ -72,7 +67,33 @@ class Sprite {
         else this.frames.val = 0
         }
     }
+}
 
+class Monster extends Sprite {
+    constructor({
+        position, 
+        image, 
+        frames = { max: 1},
+        sprites,
+        animate = false,
+        rotation = 0,
+        isEnemy = false,
+        name,
+        attacks
+    }) {
+        super({
+            position, 
+            image, 
+            frames,
+            sprites,
+            animate,
+            rotation,
+    })
+        this.health = 100
+        this.isEnemy = isEnemy
+        this.name = name
+        this.attacks = attacks
+    }
     attack({ attack, recipient, renderedSprites }) {
         document.querySelector('#dialogueBox').style.display = 'block'
         document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name
@@ -167,6 +188,7 @@ class Sprite {
         
     }
 }
+
 class Boundary {
     // in order to create our boundaries to the correct size, we need to increase the size and multiply by the value we zoomed in by. In this case we increased the value by 5.5X (12px * 5.5 = 66)
             static width = 48
