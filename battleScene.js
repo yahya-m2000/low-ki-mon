@@ -22,17 +22,17 @@ Flaillord.attacks.forEach(attack => {
 })
 
 
-
+let battleAnimationId
 
 function animateBattle () {
-    window.requestAnimationFrame(animateBattle)
+    battleAnimationId = window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
     renderedSprites.forEach((sprite) => {
         sprite.draw()
     })
 }
-/* animate()
-animateBattle() */
+//animate()
+// animateBattle()
 const queue = []
 // assigning value to the attack buttons we created
 document.querySelectorAll("button").forEach(button => {
@@ -45,13 +45,44 @@ document.querySelectorAll("button").forEach(button => {
         renderedSprites
         })
 
+        if (ZhuTwo.health <= 0) {
+            queue.push(() => {
+                ZhuTwo.faint()
+            })
+        queue.push(() => {
+            gsap.to('#overlappingDiv', {
+                opacity: 1,
+                onComplete: () => {
+                    cancelAnimationFrame(battleAnimationId)
+                    animate()
+                }
+            })
+            })
+        }
+        //enemy attack here
+        const randomAttack = 
+            ZhuTwo.attacks[Math.floor(Math.random() * ZhuTwo.attacks.length)]
+
     queue.push(() => {
         ZhuTwo.attack ({
-            attack: attacks.Tackle,
+            attack: randomAttack,
             recipient: Flaillord,
             renderedSprites
             })
+        
+        if (Flaillord.health <= 0) {
+                queue.push(() => {
+                    Flaillord.faint()
+                })
+            }
         })
+    })
+    button.addEventListener('mouseenter', (e) => {
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
+        document.querySelector('#attackType').innerHTML = selectedAttack.type
+        document.querySelector('#attackType').style.color = selectedAttack.color
+
+        console.log('')
     })
 })
 
