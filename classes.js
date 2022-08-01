@@ -9,13 +9,15 @@ class Sprite {
             animate = false,
             rotation = 0,}){
             this.position = position 
-            this.image = image
+            this.image = new Image()
             this.frames = {...frames, val: 0, elapsed: 0 },
             // for collisions, we need the width of the sprite. this will divide the sprite and get the width, and putting this on the .onload() function will make sure it's available to us.
             this.image.onload = () => {
                 this.width = this.image.width / this.frames.max
                 this.height = this.image.height
             }
+            this.image.src = image.src
+
             this.animate = animate
             this.sprites = sprites
             this.opacity = 1
@@ -97,11 +99,13 @@ class Monster extends Sprite {
     faint() {
         document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted!'
         gsap.to(this.position, {
-            y: this.position.y + 20
+            y: this.position.y
         })
         gsap.to(this, {
             opacity: 0
         })
+        audio.Battle.stop()
+        audio.victory.play()
     }
     attack({ attack, recipient, renderedSprites }) {
         document.querySelector('#dialogueBox').style.display = 'block'
@@ -116,6 +120,7 @@ class Monster extends Sprite {
 
         switch (attack.name) {
             case 'Fireball':
+                audio.initFireBall.play()
                 const fireballImage = new Image()
                 fireballImage.src = './img/fireball.png'
                 const fireball = new Sprite({
@@ -138,6 +143,7 @@ class Monster extends Sprite {
                     y: recipient.position.y,   
                     onComplete: () => {
                          // Enemy gets Hit
+                        audio.fireBallHit.play()
                         gsap.to(healthBar, {
                         width: recipient.health - attack.damage + '%'
                         })
@@ -172,6 +178,7 @@ class Monster extends Sprite {
                 duration: 0.1,
                 onComplete:() => {
             // Enemy gets Hit
+            audio.tackleHit.play()
             gsap.to(healthBar, {
                 width: recipient.health - attack.damage + '%'
             })
@@ -214,7 +221,7 @@ class Boundary {
             }
             draw() {
                 // this will change the color of our square
-                c.fillStyle = 'rgba(255, 0, 0, 0.2'
+                c.fillStyle = 'rgba(255, 0, 0, 0'
                 // this will draw out a square
                 c.fillRect(this.position.x, this.position.y, this.width, this.height)
                  

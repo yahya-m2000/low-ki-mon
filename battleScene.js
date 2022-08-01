@@ -10,35 +10,33 @@ image: battleBackgroundImage
 })
 
 
-const ZhuTwo = new Monster(monsters.ZhuTwo)
-const Flaillord = new Monster(monsters.Flaillord)
-
-const renderedSprites = [ZhuTwo, Flaillord]
-
-Flaillord.attacks.forEach(attack => {
-    const button = document.createElement('button')
-    button.innerHTML = attack.name
-    document.querySelector('#attacksBox').append(button)
-})
-
-
+let ZhuTwo
+let Flaillord
+let renderedSprites
+let queue
 let battleAnimationId
 
-function animateBattle () {
-    battleAnimationId = window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
-    renderedSprites.forEach((sprite) => {
-        sprite.draw()
-    })
-}
-//animate()
-// animateBattle()
-const queue = []
+function initBattle() {
+    document.querySelector('#userInterface').style.display = 'block'
+    document.querySelector('#dialogueBox').style.display = 'none'
+    document.querySelector('#enemyHealthBar').style.width = '100%'
+    document.querySelector('#playerHealthBar').style.width = '100%'
+    document.querySelector('#attacksBox').replaceChildren()
+    ZhuTwo = new Monster(monsters.ZhuTwo) 
+    Flaillord = new Monster(monsters.Flaillord)
+    renderedSprites = [ZhuTwo, Flaillord]
+    queue = []
+ 
+ 
+    Flaillord.attacks.forEach(attack => {
+     const button = document.createElement('button')
+     button.innerHTML = attack.name
+     document.querySelector('#attacksBox').append(button)
+ })
 // assigning value to the attack buttons we created
 document.querySelectorAll("button").forEach(button => {
     button.addEventListener('click',(e)=> {
         const selectedAttack = attacks[e.currentTarget.innerHTML]
-        console.log(selectedAttack)
         Flaillord.attack ({
         attack: selectedAttack,
         recipient: ZhuTwo,
@@ -49,12 +47,18 @@ document.querySelectorAll("button").forEach(button => {
             queue.push(() => {
                 ZhuTwo.faint()
             })
-        queue.push(() => {
-            gsap.to('#overlappingDiv', {
-                opacity: 1,
+            queue.push(() => {
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
                 onComplete: () => {
                     cancelAnimationFrame(battleAnimationId)
                     animate()
+                    document.querySelector('#userInterface').style.display = 'none'
+                    gsap.to('#overlappingDiv',{
+                        opacity: 0
+                    })
+                    battle.initiated = false
+                    audio.Map.play()
                 }
             })
             })
@@ -74,6 +78,21 @@ document.querySelectorAll("button").forEach(button => {
                 queue.push(() => {
                     Flaillord.faint()
                 })
+                queue.push(() => {
+                    gsap.to('#overlappingDiv', {
+                        opacity: 1,
+                    onComplete: () => {
+                        cancelAnimationFrame(battleAnimationId)
+                        animate()
+                        document.querySelector('#userInterface').style.display = 'none'
+                        gsap.to('#overlappingDiv',{
+                            opacity: 0
+                        })
+                        battle.initiated = false
+                        audio.Map.play()
+                    }
+                })
+                })
             }
         })
     })
@@ -82,9 +101,22 @@ document.querySelectorAll("button").forEach(button => {
         document.querySelector('#attackType').innerHTML = selectedAttack.type
         document.querySelector('#attackType').style.color = selectedAttack.color
 
-        console.log('')
     })
 })
+
+ }
+
+function animateBattle () {
+    battleAnimationId = window.requestAnimationFrame(animateBattle)
+    battleBackground.draw()
+    renderedSprites.forEach((sprite) => {
+        sprite.draw()
+    })
+}
+animate()
+//initBattle()
+//animateBattle()
+
 
 document.querySelector('#dialogueBox').addEventListener('click',(e) => {
     if (queue.length > 0) {

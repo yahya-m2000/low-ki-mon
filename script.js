@@ -1,5 +1,3 @@
-
-
 const canvas = document.querySelector('canvas');
 // get(2d) will give us a whole api of canvas, and '2d' will give us a 2d api
 const c = canvas.getContext('2d')
@@ -61,7 +59,7 @@ battlePatchMap.forEach((row, i) => {
         }}))
     })
 })
-console.log(battlePatch)
+
 
 // declare image variables that will contain image assets
 const playerImageDown = new Image()
@@ -140,10 +138,9 @@ const battle = {
 function animate () {
 // This a recursive function and will loop through over and over again to begin editing the object properties
     const animationId = window.requestAnimationFrame(animate) 
-// console.log(animationId)
-background.draw()
-boundaries.forEach((boundary) => {
-    boundary.draw()
+    background.draw()
+    boundaries.forEach((boundary) => {
+        boundary.draw()
 
 })
 battlePatch.forEach(battlePatch => {
@@ -153,11 +150,12 @@ player.draw()
 
 let moving = true
 player.animate = false
-// console.log(animationId)
+
 
 if (battle.initiated) return
 // This is when we activate a battle 
 if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
+    
     for (let i = 0; i < battlePatch.length; i++) {
         const battlePatches = battlePatch[i] 
         // 
@@ -170,9 +168,12 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
             overlappingArea > (player.width * player.height) / 2
             && Math.random() < 0.05
             ) {
-                console.log('activate battle')
 //deactivate a new animation loop
                 window.cancelAnimationFrame(animationId)
+                audio.Map.stop()
+                audio.initBattle.play()
+                audio.Battle.play()
+
 
                 battle.initiated = true
                 gsap.to('#overlappingDiv', {
@@ -186,6 +187,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                             duration: 0.4,
                             onComplete(){
 // activating new animation loop and fade out black screen to display background image
+                                initBattle()        
                                 animateBattle()
                                 gsap.to('#overlappingDiv', {
                                     opacity: 0,
@@ -255,7 +257,6 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     }
                 })
                 ) {
-                    console.log('colliding')
                     moving = false
                     break
                 } 
@@ -284,7 +285,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     }
                 })
                 ) {
-                    console.log('colliding')
+
                     moving = false
                     break
                 } 
@@ -313,7 +314,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     }
                 })
                 ) {
-                    console.log('colliding')
+
                     moving = false
                     break
                 } 
@@ -376,5 +377,13 @@ window.addEventListener('keyup', (e) => {
         case 'd': // d will evaluate to false when you lift up off the key
             keys.d.pressed = false
             break
+    }
+})
+
+let clicked = false
+addEventListener('click', () => {
+    if (!clicked) {
+        audio.Map.play()
+        clicked = true
     }
 })

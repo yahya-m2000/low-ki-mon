@@ -1,15 +1,13 @@
 // display enemy sprite images and set where the sprite is going to be positioned on the screen
-const ZhuTwoImage = new Image()
-ZhuTwoImage.src = './sprites/ZhuTwo.png'
-const FlaillordImage = new Image()
-FlaillordImage.src = './sprites/flaillord.png' 
 const monsters = {
     Flaillord: { 
         position: {
         x: 280,
         y: 325
     },
-    image: FlaillordImage,
+    image: {
+        src: './sprites/flaillord.png'
+    },
     name: 'Flaillord',
     attacks: [attacks.Tackle, attacks.Fireball]
     },
@@ -18,7 +16,9 @@ const monsters = {
         x: 800,
         y: 100,
         },
-    image: ZhuTwoImage,
+    image: {
+        src: './sprites/ZhuTwo.png'
+    },
     isEnemy: true,
     name: 'ZhuTwo',
     attacks: [attacks.Tackle, attacks.Fireball],

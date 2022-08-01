@@ -2,11 +2,14 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+        <p style="color:white">Click screen to play Music</p>
     <style>
         * {
             font-family: 'Press Start 2P', cursive;
         }
         body {
+
             background-color: black;
         }
     h1{
@@ -32,70 +35,72 @@
             bottom: 0; 
             left: 0; 
             opacity: 0; 
-            pointer-events: none;"
+            pointer-events: none;
+            z-index: 10"
             ></div>
     <!-- Creating a display box to show the characters name and health-->
-            <div 
-                style="background-color: white; 
-                width: 250px; 
-                position:absolute;
-                top: 50px;
-                left: 50px;
-                border: 3px black solid;
-                padding: 12px;">
-    <!-- Creating the enemy health bar once it is empty-->
-            <h1 style="font-size: 16px">ZhuTwo</h1>
-            <div style="position: relative;">
-            <div 
-            style="height:5px; 
-            background-color:lightgray; 
-            margin-top: 15px"></div>
-    <!-- Creating the enemy health bar bar once it is full-->
-            <div 
-            id = "enemyHealthBar"
-            style="
-            height:5px; 
-            background-color:green; 
-            position: absolute; 
-            top: 0;
-            left: 0;
-            right: 0;">
-            </div>
-        </div>
-    </div>
-
-    <!-- Represents health bar of protagonist-->
+        
+<canvas></canvas>
+<div id="userInterface" style="display: none">
     <div
-        style="
-        background-color: white; 
-        width: 250px; 
-        position:absolute;
-        top: 330px;
-        right: 50px;
-        border: 3px black solid;
-        padding: 12px;
-    "
-    >
+    style="background-color: white; 
+    width: 250px; 
+    position:absolute;
+    top: 50px;
+    left: 50px;
+    border: 3px black solid;
+    padding: 12px;">
+<!-- Creating the enemy health bar once it is empty-->
+<h1 style="font-size: 16px">ZhuTwo</h1>
+<div style="position: relative;">
+<div 
+style="height:5px; 
+background-color:lightgray; 
+margin-top: 15px"></div>
+<!-- Creating the enemy health bar bar once it is full-->
+<div 
+id = "enemyHealthBar"
+style="
+height:5px; 
+background-color:green; 
+position: absolute; 
+top: 0;
+left: 0;
+right: 0;">
+</div>
+</div>
+</div>
+
+<!-- Represents health bar of protagonist-->
+<div
+style="
+background-color: white; 
+width: 250px; 
+position:absolute;
+top: 330px;
+right: 50px;
+border: 3px black solid;
+padding: 12px;
+"
+>
 <!-- Creating the health bar once it is empty-->
-    <h1 style="font-size: 16px">Flaillord</h1>
-    <div style="position: relative;">
-        <div style="height:5px; background-color:lightgray; 
+<h1 style="font-size: 16px">Flaillord</h1>
+<div style="position: relative;">
+<div style="height:5px; background-color:lightgray; 
 margin-top:15px"></div>
 <!-- Creating the health bar bar once it is full-->
-    <div
-        id="playerHealthBar"
-        style="
-            height:5px; 
-            background-color:green; 
-            position: absolute; 
-            top: 0;
-            left: 0;
-            right: 0;
-        "
-        ></div>
-    </div>
+<div
+id="playerHealthBar"
+style="
+height:5px; 
+background-color:green; 
+position: absolute; 
+top: 0;
+left: 0;
+right: 0;">
 </div>
-<canvas></canvas>
+</div>
+</div>>
 <!-- Creating the area where attacks and type is displayed-->
         <div 
         id="userHealthBar"
@@ -106,9 +111,7 @@ margin-top:15px"></div>
         left: 0;
         right: 0;
         border-top: 3px black solid;
-        display: flex;
-    "
->
+        display: flex;">
     <div
         id="dialogueBox" 
         style="
@@ -120,10 +123,8 @@ margin-top:15px"></div>
             background-color: white;
             padding: 12px;
             display: none;
-            cursor: pointer;
-        "
-    >
-    oadhfsudhf
+            cursor: pointer;">
+
 </div>
 <!-- Creating Buttons for each attack-->
     <div
@@ -140,12 +141,17 @@ margin-top:15px"></div>
     </div>
     </div>
     </div>
+    </div>
+    <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    ></script>
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" 
     crossorigin="anonymous" 
     referrerpolicy="no-referrer"
     ></script>
     
+    <script src="data/audio.js"></script>
     <script src="data/battlePatch.js"></script>
     <script src="data/attacks.js"></script>
     <script src="data/monsters.js"></script>
