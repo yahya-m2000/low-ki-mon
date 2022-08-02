@@ -145,7 +145,7 @@ class Monster extends Sprite {
                          // Enemy gets Hit
                         audio.fireBallHit.play()
                         gsap.to(healthBar, {
-                        width: recipient.health - attack.damage + '%'
+                        width: recipient.health + '%'
                         })
                         gsap.to(recipient.position, {
                             x: recipient.position.x + 20,
@@ -180,7 +180,7 @@ class Monster extends Sprite {
             // Enemy gets Hit
             audio.tackleHit.play()
             gsap.to(healthBar, {
-                width: recipient.health - attack.damage + '%'
+                width: recipient.health + '%'
             })
 // animation for when an attack is carried out - the position of the sprite moves as well as the recipient sprite being attacked
             gsap.to(recipient.position, {
