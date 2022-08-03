@@ -222,7 +222,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                         ...boundary,
                         position: {
                             x: boundary.position.x,
-                            y: boundary.position.y + 3
+                            y: boundary.position.y + 2
                         }
                     }
                 })
@@ -235,7 +235,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
 
         if (moving)
         movables.forEach((movable) => {
-            movable.position.y += 3
+            movable.position.y += 2
         })
     }
 // if the a key is pressed & if it's the last key pressed, background position.x will move the background sideways giving the illusion the character is moving
@@ -251,7 +251,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     rectangle2: {
                         ...boundary,
                         position: {
-                            x: boundary.position.x + 3,
+                            x: boundary.position.x + 2,
                             y: boundary.position.y,
                         }
                     }
@@ -264,7 +264,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         }
         if (moving)
         movables.forEach((movable) => {
-            movable.position.x += 3
+            movable.position.x += 2
         })
     }
     else if (keys.s.pressed && lastKey === 's'){
@@ -280,7 +280,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                         ...boundary,
                         position: {
                             x: boundary.position.x,
-                            y: boundary.position.y - 3,
+                            y: boundary.position.y - 2,
                         }
                     }
                 })
@@ -293,7 +293,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         }
         if (moving)
         movables.forEach((movable) => {
-            movable.position.y -= 3
+            movable.position.y -= 2
         })
     }
     else if (keys.d.pressed && lastKey === 'd'){
@@ -308,7 +308,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
                     rectangle2: {
                         ...boundary,
                         position: {
-                            x: boundary.position.x - 3,
+                            x: boundary.position.x - 2,
                             y: boundary.position.y,
                         }
                     }
@@ -322,7 +322,7 @@ if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         }
         if (moving)
         movables.forEach((movable) => {
-            movable.position.x -= 3
+            movable.position.x -= 2
         })
     
     }
